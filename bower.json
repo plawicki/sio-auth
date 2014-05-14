@@ -1,0 +1,19 @@
+{
+  "name": "sio-auth",
+  "version": "0.1.0",
+  "authors": [
+    "Patryk"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "2.1.x"
+  }
+}
