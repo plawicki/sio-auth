@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CzatApka</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="jquery/dist/jquery.min.js"></script>
+  <script src="js/main.js"></script>
+  <link rel="stylesheet" href="css/styl.css">
+</head>
+<body>
+
+<div class='bulb'><img src='/img/bullet_red.png' alt='lampka'/>Nie połączono</div>
+
+<div id='chat'></div>
+
+<div id='rooms'>  
+</div>
+
+<form id='msgForm'>
+  <input type='text' id='nick' placeholder='<%= user %>' value="<%= user %>" disabled/><br/>
+  <input type='text' id='msg' placeholder='Wiadomość' required/>
+  <button type='submit'>Wyślij</button>
+</form>
+<hr/>
+Utwórz pokój:
+<form id='crtRoom'>
+  <input type='text' id='roomname' placeholder='Nazwa' required/><br/>
+  <button type='submit'>Utwórz</button>
+</form>
+
+</body>
+</html>

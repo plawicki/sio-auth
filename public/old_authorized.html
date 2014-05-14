@@ -1,0 +1,23 @@
+﻿<!doctype html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test pasport.socketio</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <script>
+    var socket = io.connect('//' + window.location.host);
+    socket.on('news', function(data) {
+        console.log(JSON.stringify(data));
+        socket.emit('reply', {
+            reply: 'odzew klienta'
+        });
+    });
+    </script>
+    <div><a href="/logout">Wyloguj</a></div>
+</body>
+
+</html>
