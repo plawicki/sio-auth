@@ -64,7 +64,7 @@ app.get('/login', routes.login);
 
 app.post('/login',
     passport.authenticate('local', {
-        failureRedirect: '/login'
+        failureRedirect: '/login',
     }),
     routes.authorized
 );
