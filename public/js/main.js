@@ -45,7 +45,7 @@ $(document).ready(function(){
         $(".room").css('background','none');
          $(this).css('background', "lime");
          
-        socket.emit('changeRoom',$(this).attr('id'));
+        socket.emit('changeRoom',[$(this).attr('id'), $('#nick').val()]);
     }
     $('.room').click(roomClick);
 

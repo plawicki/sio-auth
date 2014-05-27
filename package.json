@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "redis": "^0",
     "connect": "^2.14.5",
     "express": "^3.5.2",
     "socket.io": "^0.9.16",

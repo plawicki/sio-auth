@@ -13,6 +13,9 @@ var sessionSecret = 'wielkiSekret44';
 var sessionKey = 'connect.sid';
 var server;
 var sio;
+// redis setup
+var redis = require("redis");
+var rclient = redis.createClient();
 
 // roomchaty i wpisy
 var history = {"roomGlobal": []};
@@ -104,6 +107,34 @@ sio.set('authorization', passportSocketIo.authorize({
 sio.set('log level', 2); // 3 == DEBUG, 2 == INFO, 1 == WARN, 0 == ERROR
 
 sio.sockets.on('connection', function (socket) {
+
+    var address = socket.handshake.address;
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    var current_date = year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
+    rclient.lpush(address.address, current_date, function(){
+        console.log(address.address + " logged " + current_date);
+    });
+
     socket.join('roomGlobal');
     socket.emit('history', history.roomGlobal);
     socket.emit('rooms', rooms);
@@ -121,9 +152,22 @@ sio.sockets.on('connection', function (socket) {
         socket.get('room', function (err, room) {
             socket.leave(room);
         });
+
         socket.join(data);
-        socket.set('room',data);
-        socket.emit('history', history[data]);
+        socket.set('room',data[0]);
+        socket.emit('history', history[data[0]]);
+
+        //adding history to db
+        var roomName = null;
+
+        for(var i=0; i<rooms.length; i++)
+        {
+            if(rooms[i].id === data[0])
+                roomName = rooms[i].name;
+        }
+        rclient.lpush(address.address, data[1] + "  " + roomName, function(){
+            console.log(address.address + " " + data[1]);
+        });
     });
     socket.on('createRoom', function (data) {
         var newRoom = {id: "room"+rooms.length, name: data};
